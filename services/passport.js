@@ -15,9 +15,10 @@ passport.use(new googleStrategy({
     User.findOne({ googleId: profile.id }).then((existingUser) => {
         if (existingUser) {
             // User already exists
+            done(null, existingUser);
         } else {
             // Create a new user
-            new User({ googleId: profile.id }).save();
+            new User({ googleId: profile.id }).save().then(user => done(null, user));
         }
     });
 }));
