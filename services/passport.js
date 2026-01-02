@@ -6,10 +6,12 @@ const mongoose = require('mongoose');
 // Retrieve User model
 const User = mongoose.model('users');
 
+// This function is called to serialize user instance to the session
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 
+// This function is called to deserialize user instance from the session
 passport.deserializeUser((id, done) => {
     User.findById(id).then(user => {
         done(null, user);
