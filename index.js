@@ -16,10 +16,13 @@ app.use(cookieSession({
     keys: [keys.cookieKey]
 }));
 
+// Initialize Passport middleware
 app.use(passport.initialize());
+
+// Use Passport session middleware
 app.use(passport.session());
 
-// Set up authentication routes
+// Set up authentication routes 
 require('./routes/authRoutes')(app);
 
 const PORT = process.env.PORT || 3000;
