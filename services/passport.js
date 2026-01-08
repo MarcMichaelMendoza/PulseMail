@@ -19,18 +19,21 @@ passport.deserializeUser((id, done) => {
 });
 
 // Configure Passport to use Google OAuth strategy
-passport.use(new googleStrategy({
+passport.use(new googleStrategy(
+    {
     clientID: keys.googleClientID,
     clientSecret: keys.googleClientSecret,
     callbackURL: '/auth/google/callback',
     proxy: true
-},  async (accessToken, refreshToken, profile, done) => {
+    },  
+    async (accessToken, refreshToken, profile, done) => {
         const existingUser = await User.findOne({ googleId: profile.id })
         if (existingUser) {
             // User already exists
-             return done(null, existingUser);
+            return done(null, existingUser);
         } 
         // Create a new user
         const user = await new User({ googleId: profile.id }).save()
         done(null, user);
-    }));
+    }
+));
