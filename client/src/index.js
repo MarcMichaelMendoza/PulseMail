@@ -3,6 +3,8 @@ import App from "./components/App";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware} from "redux";
 import reducers from "./reducers";
+import reduxThunk from 'redux-thunk';
+import  'materialize-css/dist/css/materialize.min.css';
 
 // Find the root DOM node
 const el = document.getElementById("root");
@@ -14,7 +16,7 @@ const root = ReactDOM.createRoot(el);
 // The first argument is all the reducers in the application.
 // The second argument is the initial state.
 // The third argument is middleware (currently none).
-const store = createStore(reducers, {}, applyMiddleware());
+const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 // Render the root component of the application.
 // The Provider component from react-redux makes the Redux store
