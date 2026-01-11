@@ -6,7 +6,9 @@ module.exports = (app) => {
     app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email']  })); 
 
     // Callback route for Google OAuth
-    app.get('/auth/google/callback', passport.authenticate('google'));
+    app.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
+        res.redirect('/surveys'); // Redirect to surveys after successful login
+    });
 
     // Route to get current logged-in user
     app.get('/api/current_user', (req, res) => {
@@ -16,6 +18,7 @@ module.exports = (app) => {
     // Route to log out user
     app.get('/api/logout', (req, res) => {
         req.logout();
-        res.send(req.user);
+        res.redirect('/');
+        // res.send(req.user);
     });
 };

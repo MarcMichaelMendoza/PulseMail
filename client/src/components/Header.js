@@ -25,7 +25,7 @@ class Header extends Component {
         return (
             <nav>
                 <div className="nav-wrapper">
-                    <a className="left brand-logo">
+                    <a href="/" className="left brand-logo">
                         PulseMail
                     </a>
                     <ul className="right">
