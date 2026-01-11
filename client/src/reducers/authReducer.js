@@ -1,7 +1,7 @@
 import { FETCH_USER } from '../actions/type';
 
 // Auth reducer to manage authentication state
-export default function (state = null, action) {
+export default function authReducer(state = null, action) {
      console.log(action);
      switch(action.type) {
           case FETCH_USER:
