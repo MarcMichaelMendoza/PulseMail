@@ -24,6 +24,8 @@ class App extends Component {
             try {
                 await axios.get(`/api/stripe/success?session_id=${sessionId}`);
                 this.props.fetchUser();
+                // Remove session_id from URL to prevent reprocessing on refresh
+                window.history.replaceState({}, document.title, window.location.pathname);
             } catch (err) {
                 console.error('Payment verification failed:', err);
             }

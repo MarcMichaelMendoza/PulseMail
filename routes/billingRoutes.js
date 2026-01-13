@@ -1,15 +1,12 @@
 const keys = require('../config/key');
 const stripe = require('stripe')(keys.stripeSecretKey);
+const requiredLogin = require('../middlewares/requiredLogin');
 const mongoose = require('mongoose');
 const User = mongoose.model('users');
 
 module.exports = app => {
-    // Create a Stripe Checkout session
-    app.post('/api/stripe', async (req, res) => {
-        if (!req.user) {
-            return res.status(401).send({ error: 'You must be logged in!' });
-        }
-
+    // Create a Stripe checkout session
+    app.post('/api/stripe', requiredLogin, async (req, res) => {
         try {
             const session = await stripe.checkout.sessions.create({
                 payment_method_types: ['card'],
@@ -47,12 +44,21 @@ module.exports = app => {
             return res.status(400).send({ error: 'Invalid request' });
         }
 
+        // Check if session already processed
+        if (req.user.processedSessions && req.user.processedSessions.includes(session_id)) {
+            return res.send(req.user);  // Already processed, just return user
+        }
+
         try {
             const session = await stripe.checkout.sessions.retrieve(session_id);
             
             if (session.payment_status === 'paid' && session.client_reference_id === req.user.id) {
                 // Add credits to user
                 req.user.credits += 5;
+                if (!req.user.processedSessions) {
+                    req.user.processedSessions = [];
+                }
+                req.user.processedSessions.push(session_id);
                 await req.user.save();
                 res.send(req.user);
             } else {
