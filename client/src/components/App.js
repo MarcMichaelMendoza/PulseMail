@@ -38,7 +38,11 @@ class App extends Component {
                 <BrowserRouter>
                     <div>
                         <Header />
-                        <Route exact={true} path="/" component={Landing} />
+                        <Route
+                            exact={true}
+                            path="/"
+                            render={() => (this.props.auth ? <Dashboard /> : <Landing />)}
+                        />
                         <Route exact path="/surveys" component={Dashboard} />
                         <Route path="/surveys/new" component={SurveyNew} />
                     </div>
@@ -49,4 +53,6 @@ class App extends Component {
 }
 
 // Connect the App component to the Redux store and export it
-export default connect(null, actions)(App);
+const mapStateToProps = ({ auth }) => ({ auth });
+
+export default connect(mapStateToProps, actions)(App);
