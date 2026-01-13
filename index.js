@@ -5,6 +5,7 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/key');
 require('./models/user');
+require('./models/survey');
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
@@ -29,6 +30,7 @@ app.use(passport.session());
 // Set up authentication routes 
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 if (process.env.NODE_ENV === 'production') {
     // Serve static files from the React app

@@ -28,6 +28,12 @@ class App extends Component {
                 window.history.replaceState({}, document.title, window.location.pathname);
             } catch (err) {
                 console.error('Payment verification failed:', err);
+            if (process.env.NODE_ENV === 'production') {
+                // Log to external error tracking service
+                alert('There was an issue processing your payment. Please contact support.');
+            } else {
+                console.error('Payment verification failed:', err);
+            }
             }
         }
     }
