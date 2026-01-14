@@ -6,6 +6,10 @@ import reducers from "./reducers";
 import reduxThunk from 'redux-thunk';
 import  'materialize-css/dist/css/materialize.min.css';
 
+// Only in Development: set up axios on the window for easy debugging
+import axios from "axios";
+window.axios = axios;
+
 // Find the root DOM node
 const el = document.getElementById("root");
 

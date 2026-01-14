@@ -1,10 +1,16 @@
 const mongoose = require('mongoose');
 const requiredLogin = require("../middlewares/requiredLogin");
 const requiredCredits = require("../middlewares/requiredCredits");
+const Mailer = require("../services/mailer");
+const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 
 const Survey = mongoose.model('surveys');
 
 module.exports = (app) => {
+    app.get('/api/surveys/thanks', (req, res) => {
+        res.send('Thanks for your Feedback!');
+    });
+
     app.post('/api/surveys', requiredLogin, requiredCredits, async (req, res) => {
         const { title, subject, body, recipients } = req.body;
         const survey = new Survey({
@@ -16,13 +22,20 @@ module.exports = (app) => {
             dateSent: Date.now()
         });
 
+        const mailer = new Mailer(survey, surveyTemplate(survey));
         try {
+            await mailer.send();
             await survey.save();
+
+            // Deduct one credit from the user and return updated user
             req.user.credits -= 1;
             await req.user.save();
-            res.send(req.user);
+            return res.send(req.user);
         } catch (err) {
-            res.status(422).send(err);
+            console.log('Survey creation error:', err);
+            console.log('Error response:', err.response);
+            return res.status(422).send(err);
         }
+
     });
 };
