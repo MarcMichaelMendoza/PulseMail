@@ -32,8 +32,6 @@ module.exports = (app) => {
             await req.user.save();
             return res.send(req.user);
         } catch (err) {
-            console.log('Survey creation error:', err);
-            console.log('Error response:', err.response);
             return res.status(422).send(err);
         }
 

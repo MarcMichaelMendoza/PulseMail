@@ -3,12 +3,10 @@ import  { BrowserRouter, Route} from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import axios from "axios";
-
-// Importing other components
 import Header from "./Header";
 import Landing from "./Landing";
-const Dashboard = () => <h2>Dashboard</h2>; 
-const SurveyNew = () => <h2>SurveyNew</h2>;
+import Dashboard from "./Dashboard";
+import SurveyNew from "./surveys/SurveyNew";
 
 // Main App component
 class App extends Component {
@@ -28,12 +26,12 @@ class App extends Component {
                 window.history.replaceState({}, document.title, window.location.pathname);
             } catch (err) {
                 console.error('Payment verification failed:', err);
-            if (process.env.NODE_ENV === 'production') {
-                // Log to external error tracking service
-                alert('There was an issue processing your payment. Please contact support.');
-            } else {
-                console.error('Payment verification failed:', err);
-            }
+                if (process.env.NODE_ENV === 'production') {
+                    // Log to external error tracking service
+                    alert('There was an issue processing your payment. Please contact support.');
+                } else {
+                    console.error('Payment verification failed:', err);
+                }
             }
         }
     }
