@@ -54,7 +54,7 @@ function validate(values) {
      * Validate form values.
      *
      * - Ensures all fields defined in `formFields` have a value.
-     * - Validates the `recipientList` with `validateEmail` when present and
+     * - Validates the `recipient` with `validateEmail` when present and
      *   attaches a descriptive error message for invalid email addresses.
      *
      * @param {Object} values - key/value pairs of form inputs
@@ -67,10 +67,10 @@ function validate(values) {
         }
     });
 
-    if (values.recipientList) {
-        const emailError = validateEmail(values.recipientList);
+    if (values.recipients) {
+        const emailError = validateEmail(values.recipients);
         if (emailError) {
-            errors.recipientList = emailError;
+            errors.recipients = emailError;
         }
     }
 

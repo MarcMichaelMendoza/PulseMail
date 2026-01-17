@@ -10,10 +10,10 @@
  *   formFields[0] // => { label: "Survey Title", name: "surveyTitle" }
  */
 const formFields = [
-    { label: "Survey Title", name: "surveyTitle" },
-    { label: "Subject Line", name: "subjectLine" },
-    { label: "Email Body", name: "emailBody" },
-    { label: "Recipient List", name: "recipientList" }
+    { label: "Survey Title", name: "title" },
+    { label: "Subject Line", name: "subject" },
+    { label: "Email Body", name: "body" },
+    { label: "Recipient List", name: "recipients" }
 ]
 
 export default formFields;

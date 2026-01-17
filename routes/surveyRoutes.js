@@ -13,11 +13,12 @@ module.exports = (app) => {
 
     app.post('/api/surveys', requiredLogin, requiredCredits, async (req, res) => {
         const { title, subject, body, recipients } = req.body;
+        const recipientForms = recipients.split(',').map(email => ({ email: email.trim() }));
         const survey = new Survey({
             title,
             subject,
             body,
-            recipients: recipients.split(',').map(email => ({ email: email.trim() })),
+            recipients: recipientForms,
             _user: req.user.id,
             dateSent: Date.now()
         });
