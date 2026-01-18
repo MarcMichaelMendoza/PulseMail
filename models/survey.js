@@ -1,8 +1,13 @@
+/**
+ * @fileoverview Survey model for email survey campaigns.
+ * @module models/survey
+ */
+
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const recipientSchema = require('./recipient');
 
-// Define Survey schema
+/** @see {import('../types').Survey} */
 const surveySchema = new Schema({
     title: String,
     subject: String,

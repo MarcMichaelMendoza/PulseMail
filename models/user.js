@@ -1,7 +1,12 @@
+/**
+ * @fileoverview User model with Google OAuth and Stripe integration.
+ * @module models/user
+ */
+
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-// Define User schema
+/** @see {import('../types').User} */
 const userSchema = new Schema({
     googleId: String,
     credits: { type: Number, default: 0 },

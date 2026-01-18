@@ -1,7 +1,12 @@
+/**
+ * @fileoverview Recipient subdocument schema for survey recipients.
+ * @module models/recipient
+ */
+
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-// Define Survey schema
+/** @see {import('../types').Recipient} */
 const recipientSchema = new Schema({
     email: String,
     responded: { type: Boolean, default: false }

@@ -2,8 +2,22 @@ const sendgrid = require('sendgrid');
 const helper = sendgrid.mail;
 const keys = require('../config/key');
 
+/**
+ * Mailer class wraps SendGrid helper.Mail to build and send survey emails.
+ *
+ * Usage:
+ *   const mailer = new Mailer(survey, htmlContent);
+ *   await mailer.send();
+ *
+ * @extends helper.Mail
+ */
 class Mailer extends helper.Mail {
-    // Initialize Mailer with survey details and content
+    /**
+     * Create a Mailer instance.
+     *
+     * @param {{recipients: Array<{email:string}>, subject: string}} survey - Survey metadata
+     * @param {string} content - HTML content for the email body
+     */
     constructor({recipients, subject}, content) {
         super();
 
@@ -19,25 +33,29 @@ class Mailer extends helper.Mail {
         this.addClickTracking();
         this.addRecipients();
     }
-    // Format recipient email addresses
+
+    /**
+     * @private
+     * @param {import('../types').Recipient[]} recipients
+     * @returns {helper.Email[]}
+     */
     formatAddresses(recipients) {
         return recipients.map(({ email }) => {
             return new helper.Email(email);
         });
-    } 
+    }
     
+    /** @private */
     addClickTracking() {
-        // Enable click tracking for the email
         const trackingSettings = new helper.TrackingSettings();
         const clickTracking = new helper.ClickTracking(true, true);
 
-        // Set click tracking settings
         trackingSettings.setClickTracking(clickTracking);
         this.addTrackingSettings(trackingSettings);
     }
 
+    /** @private */
     addRecipients() {
-        // Add each recipient to the email
         const personalize = new helper.Personalization();
         this.recipients.forEach(recipient => {
             personalize.addTo(recipient);
@@ -45,8 +63,13 @@ class Mailer extends helper.Mail {
         this.addPersonalization(personalize);
     }
 
+    /**
+     * Send email via SendGrid API.
+     * 
+     * @returns {Promise<object>} SendGrid response
+     * @throws {Error} SendGrid API error
+     */
     async send() {
-        // Send the email using SendGrid API
         const request = this.sgApi.emptyRequest({
             method: 'POST',
             path: '/v3/mail/send',

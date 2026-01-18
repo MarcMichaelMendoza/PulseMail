@@ -1,5 +1,16 @@
+/**
+ * @fileoverview HTML email template for survey invitations.
+ * @module services/emailTemplates/surveyTemplate
+ */
+
 const keys = require('../../config/key');
 
+/**
+ * Generate survey email HTML template.
+ *
+ * @param {import('../../types').Survey} survey
+ * @returns {string} HTML email content
+ */
 module.exports = survey => {
     return `
         <html>

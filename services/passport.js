@@ -1,12 +1,16 @@
+/**
+ * @fileoverview Passport.js configuration for Google OAuth authentication.
+ * @module services/passport
+ */
+
 const passport = require('passport');
 const keys = require('../config/key');
 const googleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 
-// Retrieve User model
 const User = mongoose.model('users');
 
-// This function is called to serialize user instance to the session
+// Passport session serialization
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
@@ -18,7 +22,7 @@ passport.deserializeUser((id, done) => {
     });
 });
 
-// Configure Passport to use Google OAuth strategy
+// Google OAuth strategy configuration
 passport.use(new googleStrategy(
     {
     clientID: keys.googleClientID,

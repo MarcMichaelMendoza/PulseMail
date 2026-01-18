@@ -1,6 +1,11 @@
+/**
+ * @fileoverview Development proxy configuration for Create React App.
+ * @module setupProxy
+ */
+
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-// Proxy setup to forward API requests to the backend server
+/** @param {import('express').Application} app */
 module.exports = function (app) {
   app.use(["/api", "/auth/google"],createProxyMiddleware({
       target: "http://localhost:5000",

@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Survey management routes for creating and sending email surveys.
+ * @module routes/surveyRoutes
+ */
+
 const mongoose = require('mongoose');
 const requiredLogin = require("../middlewares/requiredLogin");
 const requiredCredits = require("../middlewares/requiredCredits");
@@ -6,11 +11,26 @@ const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 
 const Survey = mongoose.model('surveys');
 
+/**
+ * Register survey-related routes.
+ *
+ * @param {import('express').Application} app - Express application
+ * @example
+ * const surveyRoutes = require('./routes/surveyRoutes');
+ * surveyRoutes(app);
+ */
 module.exports = (app) => {
     app.get('/api/surveys/thanks', (req, res) => {
         res.send('Thanks for your Feedback!');
     });
 
+    /**
+     * Create and send a survey via email.
+     * 
+     * @route POST /api/surveys
+     * @middleware requiredLogin, requiredCredits
+     * @throws {422} Invalid recipients or email send failure
+     */
     app.post('/api/surveys', requiredLogin, requiredCredits, async (req, res) => {
         const { title, subject, body, recipients } = req.body;
         const recipientForms = recipients.split(',').map(email => ({ email: email.trim() }));
