@@ -2,12 +2,16 @@
  * @fileoverview Survey management routes for creating and sending email surveys.
  * @module routes/surveyRoutes
  */
-
+const _ = require('lodash');
+const { Path }  = require('path-parser');
+const { URL } = require('url');
 const mongoose = require('mongoose');
 const requiredLogin = require("../middlewares/requiredLogin");
 const requiredCredits = require("../middlewares/requiredCredits");
 const Mailer = require("../services/mailer");
 const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
+const path = require('path');
+const { url } = require('inspector');
 
 const Survey = mongoose.model('surveys');
 
@@ -20,8 +24,39 @@ const Survey = mongoose.model('surveys');
  * surveyRoutes(app);
  */
 module.exports = (app) => {
-    app.get('/api/surveys/thanks', (req, res) => {
+    app.get('/api/surveys/:surveyId/:choice', (req, res) => {
         res.send('Thanks for your Feedback!');
+    });
+
+    /** * Handle incoming survey webhook events.
+     * 
+     * @route POST /api/surveys/webhooks
+     * @throws {400} Invalid webhook payload
+     */
+    app.post('/api/surveys/webhooks', (req, res) => {
+        // Define the path pattern 
+        const pattern = new Path('/api/surveys/:surveyId/:choice');
+
+        // Process each event in the webhook payload
+        const events = _.chain(req.body)
+            .map(({ email, url }) => {
+                const match = pattern.test(new URL(url).pathname);
+                if (match) {
+                    return {
+                        email, 
+                        surveyId: match.surveyId, 
+                        choice: match.choice
+                    }
+                }
+            })
+            .compact()
+            .uniqBy('email', 'surveyId')
+            .values();
+
+        console.log(events);
+
+        res.send(); // Respond with 200 OK
+
     });
 
     /**
