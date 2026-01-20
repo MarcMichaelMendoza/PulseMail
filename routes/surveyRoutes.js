@@ -51,11 +51,11 @@ module.exports = (app) => {
             })
             .compact()
             .uniqBy('email', 'surveyId')
-            .values();
+            .value();
 
         console.log(events);
 
-        res.send(); // Respond with 200 OK
+        res.send({}); // Respond with 200 OK
 
     });
 
