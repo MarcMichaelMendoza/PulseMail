@@ -17,6 +17,21 @@ module.exports = (app) => {
         res.send(surveys);
     });
 
+    app.delete('/api/surveys/:surveyId', requiredLogin, async (req, res) => {
+        try {
+            await Survey.deleteOne({
+                _id: req.params.surveyId,
+                _user: req.user.id
+            });
+            const surveys = await Survey.find({ _user: req.user.id })
+                .select({ recipients: false })
+                .sort({ dateSent: -1 });
+            res.send(surveys);
+        } catch (err) {
+            res.status(422).send({ error: 'Error deleting survey' });
+        }
+    });
+
     app.get('/api/surveys/:surveyId/:choice', async (req, res) => {
         const { surveyId, choice } = req.params;
 

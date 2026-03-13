@@ -285,6 +285,13 @@ a:hover {
   white-space: nowrap;
 }
 
+.survey-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .survey-card-body {
   font-size: 14px;
   color: var(--color-fg-muted);
@@ -888,4 +895,110 @@ a:hover {
   min-height: 100vh;
   text-align: center;
   background: var(--color-canvas-default);
+}
+
+/* ---------- Delete Survey Button ---------- */
+.btn-delete-survey {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-fg-subtle);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-delete-survey:hover {
+  color: var(--color-danger-fg);
+  background: rgba(248,81,73,.1);
+  border-color: rgba(248,81,73,.3);
+}
+
+/* ---------- Delete Confirmation Dialog ---------- */
+.delete-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(1,4,9,.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn var(--transition-normal) ease;
+}
+
+.delete-dialog {
+  background: var(--color-canvas-subtle);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--shadow-lg);
+  animation: scaleIn var(--transition-normal) ease;
+}
+
+.delete-dialog h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-fg-default);
+  margin-bottom: 8px;
+}
+
+.delete-dialog p {
+  font-size: 14px;
+  color: var(--color-fg-muted);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.delete-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.delete-dialog-actions .btn-cancel {
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-btn-border);
+  background: var(--color-btn-bg);
+  color: var(--color-fg-default);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.delete-dialog-actions .btn-cancel:hover {
+  background: var(--color-btn-hover-bg);
+}
+
+.delete-dialog-actions .btn-delete {
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: var(--color-btn-danger-bg);
+  color: #fff;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.delete-dialog-actions .btn-delete:hover {
+  background: var(--color-btn-danger-hover-bg);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
