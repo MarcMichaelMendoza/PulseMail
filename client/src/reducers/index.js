@@ -1,11 +1,10 @@
 import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
 import authReducer from "./authReducer";
+import surveysReducer from "./surveysReducer";
 
-// The combineReducers helper function turns an object whose values are different
-// reducer functions into a single reducer function you can pass to createStore.
 export default combineReducers({
-    // The 'auth' piece of state is being managed by the authReducer.
     auth: authReducer,
-    form: formReducer
+    form: formReducer,
+    surveys: surveysReducer
 });
